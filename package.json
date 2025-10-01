@@ -1,0 +1,10 @@
+{
+  "name": "brave-mcp-sse",
+  "version": "0.0.1",
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@brave/brave-search-mcp-server": "2.0.24",
+    "mcp-proxy": "5.7.0"
+  }
+}
