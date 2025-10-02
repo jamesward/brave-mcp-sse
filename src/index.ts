@@ -6,7 +6,7 @@ import {InMemoryEventStore, startHTTPServer, proxyServer} from "mcp-proxy";
 if (!process.env.BRAVE_API_KEY) throw new Error('BRAVE_API_KEY environment variable is not defined');
 const braveApiKey = process.env.BRAVE_API_KEY;
 
-const host = "127.0.0.1"
+const host = "0.0.0.0"
 const port = Number(process.env.PORT) || 8080;
 
 const connect = async (client: Client) => {
