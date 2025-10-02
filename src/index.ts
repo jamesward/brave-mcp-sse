@@ -12,12 +12,9 @@ const port = Number(process.env.PORT) || 8080;
 const connect = async (client: Client) => {
 
   const transport = new StdioClientTransport({
-    command: "npx",
-    args: ["@brave/brave-search-mcp-server", "--brave-api-key", braveApiKey],
+    command: "node",
+    args: ["./node_modules/@brave/brave-search-mcp-server/dist/index.js", "--brave-api-key", braveApiKey],
     env: process.env as Record<string, string>,
-    // onEvent: (event) => {
-    //   console.debug("transport event", event);
-    // },
     stderr: "inherit",
   });
 
