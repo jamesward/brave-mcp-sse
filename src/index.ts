@@ -40,6 +40,10 @@ const proxy = async () => {
 
     console.debug("callTool", params.name, params.arguments);
 
+    if (params.arguments?.search_lang) {
+      params.arguments.search_lang = "en";
+    }
+
     const cacheKey = `${params.name}-${JSON.stringify(params.arguments)}`;
     if (toolCallCache[cacheKey]) {
       console.debug("cache hit", cacheKey);
