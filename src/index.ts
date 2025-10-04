@@ -77,12 +77,7 @@ const proxy = async () => {
 
     // alternatively send a log message but need to get the list of connected clients somehow
     setInterval(() => {
-      try {
-        server.sendToolListChanged()
-      }
-      catch (e) {
-        console.error(e)
-      }
+      server.sendToolListChanged().catch(console.error)
     }, 45000)
 
     proxyServer({
