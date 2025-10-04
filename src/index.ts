@@ -75,6 +75,8 @@ const proxy = async () => {
       capabilities: serverCapabilities,
     });
 
+    setInterval(() => server.sendToolListChanged(), 45000)
+
     proxyServer({
       client,
       server,
