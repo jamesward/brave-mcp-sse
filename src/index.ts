@@ -1,7 +1,7 @@
-import { Client } from "@modelcontextprotocol/sdk/client/index.js";
-import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
-import { Server } from "@modelcontextprotocol/sdk/server/index.js";
-import {InMemoryEventStore, startHTTPServer, proxyServer} from "mcp-proxy";
+import {Client} from "@modelcontextprotocol/sdk/client/index.js";
+import {StdioClientTransport} from "@modelcontextprotocol/sdk/client/stdio.js";
+import {Server} from "@modelcontextprotocol/sdk/server/index.js";
+import {InMemoryEventStore, proxyServer, startHTTPServer} from "mcp-proxy";
 
 if (!process.env.BRAVE_API_KEY) throw new Error('BRAVE_API_KEY environment variable is not defined');
 const braveApiKey = process.env.BRAVE_API_KEY;
@@ -57,6 +57,14 @@ const proxy = async () => {
     return result;
   }
 
+  const originalListTools = client.listTools.bind(client);
+
+  client.listTools = async () => {
+    const result = await originalListTools();
+    result.tools = result.tools.filter(tool => tool.name === "brave_web_search");
+    return result;
+  }
+
   await connect(client);
 
   const serverVersion = client.getServerVersion() as {
@@ -75,6 +83,7 @@ const proxy = async () => {
       capabilities: serverCapabilities,
     });
 
+    // keep the sse connection alive (closes if no messages after 55 seconds on Heroku)
     // alternatively send a log message but need to get the list of connected clients somehow
     setInterval(() => {
       server.sendToolListChanged().catch(console.error)
